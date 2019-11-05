@@ -1,5 +1,6 @@
 package com.wen;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,6 +8,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -54,11 +56,22 @@ public class MainActivity extends AppCompatActivity {
         int n = Integer.parseInt(number.getText().toString());
         counter++;
         edcounter.setText(counter + "");
+        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reset();
+            }
+        };
         result.setVisibility(View.VISIBLE);
         result.setAlpha(1.0f);
         if(n == secret) {
             result.setImageResource(R.drawable.right);
             Toast.makeText(MainActivity.this,"Bingo",Toast.LENGTH_LONG)
+                    .show();
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Information")
+                    .setMessage("Bingo")
+                    .setPositiveButton("OK",listener)
                     .show();
         } else if (n > secret) {
             result.setImageResource(R.drawable.error);
